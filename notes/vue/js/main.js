@@ -2,112 +2,141 @@ let event = new Vue();
 
 Vue.component('container',{
     template: `
-    <div class="container">
-        <div class="column column1">
-            <div class="todo-card">
-                <h3>Заголовок заметки</h3>
-                <ul class="todo-list">
-                    <li class="todo-item">
-                        <p>Что то сделать</p>
-                        <input class="todo-done" type="button" value="Готово">
-                    </li>
-                </ul>
-            </div>
-
-            <div class="todo-card">
-                <h3>Заголовок заметки</h3>
-                <ul class="todo-list">
-                    <li class="todo-item">
-                        <p>Что то сделать</p>
-                        <input class="todo-done" type="button" value="Готово">
-                    </li>
-                </ul>
-            </div>
-
-            <div class="todo-card">
-                <h3>Заголовок заметки</h3>
-                <ul class="todo-list">
-                    <li class="todo-item">
-                        <p>Что то сделать</p>
-                        <input class="todo-done" type="button" value="Готово">
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="column column2">
-            <div class="todo-card">
-                <h3>Заголовок заметки</h3>
-                <ul class="todo-list">
-                    <li class="todo-item">
-                        <p>Что то сделать</p>
-                        <input class="todo-done" type="button" value="Готово">
-                    </li>
-                </ul>
-            </div>
-
-            <div class="todo-card">
-                <h3>Заголовок заметки</h3>
-                <ul class="todo-list">
-                    <li class="todo-item">
-                        <p>Что то сделать</p>
-                        <input class="todo-done" type="button" value="Готово">
-                    </li>
-                </ul>
-            </div>
-
-            <div class="todo-card">
-                <h3>Заголовок заметки</h3>
-                <ul class="todo-list">
-                    <li class="todo-item">
-                        <p>Что то сделать</p>
-                        <input class="todo-done" type="button" value="Готово">
-                    </li>
-                </ul>
-            </div>
-
-            <div class="todo-card">
-                <h3>Заголовок заметки</h3>
-                <ul class="todo-list">
-                    <li class="todo-item">
-                        <p>Что то сделать</p>
-                        <input class="todo-done" type="button" value="Готово">
-                    </li>
-                </ul>
-            </div>
-
-            <div class="todo-card">
-                <h3>Заголовок заметки</h3>
-                <ul class="todo-list">
-                    <li class="todo-item">
-                        <p>Что то сделать</p>
-                        <input class="todo-done" type="button" value="Готово">
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="column column3">
-            <div class="todo-card">
-                <h3>Заголовок заметки</h3>
-                <ul class="todo-list">
-                    <li class="todo-item">
-                        <p>Что то сделать</p>
-                        <input class="todo-done" type="button" value="Готово">
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
     
-   
-             
+    <div class="container">
+        <left-list></left-list>
+        <center-list></center-list>
+        <right-list></right-list>
+    </div>
     `,
+    methods: {
+
+    },
     data(){
         return{
             
         };
     },
+})
+
+Vue.component('left-list',{
+template: `
+<div class:"left-list">
+    <div class="column column1">
+            <div class="todo-card">
+                <h3>Заголовок заметки</h3>
+                <ul class="todo-list">
+                    <li class="todo-item">
+                        <p>Что то сделать</p>
+                        <input class="todo-done" type="button" value="Готово">
+                    </li>
+                </ul>
+            </div>
+
+            <div class="todo-card">
+                <h3>Заголовок заметки</h3>
+                <ul class="todo-list">
+                    <li class="todo-item">
+                        <p>Что то сделать</p>
+                        <input class="todo-done" type="button" value="Готово">
+                    </li>
+                </ul>
+            </div>
+
+            <div class="todo-card">
+                <h3>Заголовок заметки</h3>
+                <ul class="todo-list">
+                    <li class="todo-item">
+                        <p>Что то сделать</p>
+                        <input class="todo-done" type="button" value="Готово">
+                    </li>
+                </ul>
+            </div>
+    </div> 
+</div>
+
+`
+})
+
+Vue.component('center-list',{
+template: `
+<div class:"center-list">
+    <div class="column column2">
+            <div class="todo-card">
+                <h3>Заголовок заметки</h3>
+                <ul class="todo-list">
+                    <li class="todo-item">
+                        <p>Что то сделать</p>
+                        <input class="todo-done" type="button" value="Готово">
+                    </li>
+                </ul>
+            </div>
+
+            <div class="todo-card">
+                <h3>Заголовок заметки</h3>
+                <ul class="todo-list">
+                    <li class="todo-item">
+                        <p>Что то сделать</p>
+                        <input class="todo-done" type="button" value="Готово">
+                    </li>
+                </ul>
+            </div>
+
+            <div class="todo-card">
+                <h3>Заголовок заметки</h3>
+                <ul class="todo-list">
+                    <li class="todo-item">
+                        <p>Что то сделать</p>
+                        <input class="todo-done" type="button" value="Готово">
+                    </li>
+                </ul>
+            </div>
+
+            <div class="todo-card">
+                <h3>Заголовок заметки</h3>
+                <ul class="todo-list">
+                    <li class="todo-item">
+                        <p>Что то сделать</p>
+                        <input class="todo-done" type="button" value="Готово">
+                    </li>
+                </ul>
+            </div>
+
+            <div class="todo-card">
+                <h3>Заголовок заметки</h3>
+                <ul class="todo-list">
+                    <li class="todo-item">
+                        <p>Что то сделать</p>
+                        <input class="todo-done" type="button" value="Готово">
+                    </li>
+                </ul>
+            </div>
+    </div>
+</div>
+` 
+})
+
+Vue.component('right-list',{
+template: `
+<div class:right-list>
+    <div class="column column3">
+            <div class="todo-card">
+                <h3>Заголовок заметки</h3>
+                <ul class="todo-list">
+                        <li class="todo-item">
+                        <p>Что то сделать</p>
+                        <input class="todo-done" type="button" value="Готово">
+                    </li>
+                </ul>
+            </div>
+    </div>
+</div>
+`,
+data(){
+    return{
+        
+    };
+},   
 })
 
 let app = new Vue({
