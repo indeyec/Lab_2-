@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Заметки</title>
+  <link rel="stylesheet" href="static/static.css">
+  <script src="js/vue.js"></script>
+  <script defer src="js/main.js"></script>
+</head>
+<body>
+  <div id="app">
+    <div id="search">
+      <h1>Заметки</h1>
+      <input v-on:keyup.enter="addPost" v-model="title" placeholder="Название " maxlength="20">
+    </div><br>
+    <div id="post" v-for="post,index in posts">
+      <img id="deletePost" v-on:click="deletePost(index)" src="static/delete.png">
+      <h2>{{post.title}}</h2>
+      <ol v-for="paragraph,indexContent in post.content">
+        <input type="checkbox" v-model="posts[index].checkbox[indexContent]">
+        <input type="text" v-model="posts[index].content[indexContent]">
+        <img id="deleteContent" v-on:click="deleteContent(index,indexContent)" src="static/remove.png">
+      </ol>
+      <input v-on:keyup.enter="addContent(index)" v-model="content" maxlength="20">
+    </div>
+  </div>
+  <container></container> 
+</body>
+</html>
