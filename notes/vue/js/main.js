@@ -2,7 +2,6 @@ let event = new Vue();
 
 Vue.component('container',{
     template: `
-    
     <div class="container">
         <left-list></left-list>
         <center-list></center-list>
@@ -10,7 +9,6 @@ Vue.component('container',{
     </div>
     `,
     methods: {
-
     },
     data(){
         return{
@@ -54,8 +52,12 @@ template: `
             </div>
     </div> 
 </div>
-
-`
+`,
+data(){
+    return{
+        
+    };
+}
 })
 
 Vue.component('center-list',{
@@ -113,7 +115,12 @@ template: `
             </div>
     </div>
 </div>
-` 
+` ,
+data(){
+    return{
+        
+    };
+}
 })
 
 Vue.component('right-list',{
