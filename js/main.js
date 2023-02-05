@@ -1,72 +1,268 @@
-let event = new Vue();
+let eventBus = new Vue();
 
-Vue.component('container',{
-    template: `
-    <div class="container">
-        <left-list></left-list>
-        <center-list></center-list>
-        <right-list></right-list>
-    </div>
-    `,
+Vue.component('list', {
+    props: {
+        note_data: {
+            type: Object,
+            default() {
+                return {}
+            }
+        },
+        notes: {
+            type: Array,
+            default() {
+                return {}
+            }
+        }
+    },
+    data() {
+        return {
+            taskTitle: null,
+            task: [],
+        }
+
+    },
     methods: {
+        delNote() {
+            this.$emit('del_note')
+        },
+        column1Move(){
+            this.$emit('column1_move')
+        },
+        column2Move(){
+            this.$emit('column2_move')
+        },
+        addTask() {
+            if (this.taskTitle) {
+                this.note_data.tasks.push({
+                    taskTitle: this.taskTitle,
+                    completed: false,
+                });
+                this.taskTitle = null;
+                if(this.note_data.completedNum <= 50) localStorage.todo = JSON.stringify(this.notes);
+                else if(this.note_data.completedNum === 100) localStorage.todo3 = JSON.stringify(this.notes);
+                else localStorage.todo2 = JSON.stringify(this.notes);
+            }
+        },
+        checkbox(id) {
+            this.note_data.tasks[id].completed = !this.note_data.tasks[id].completed;
+            let counterCompleted = 0;
+            let counterNotCompleted = 0;
+            for (let el of this.note_data.tasks) {
+                if (el.completed) {
+                    counterCompleted++;
+                } else {
+                    counterNotCompleted++;
+                }
+            }
+            this.note_data.completedNum = (counterCompleted / (counterCompleted + counterNotCompleted)) * 100;
+            this.column1Move();
+            this.column2Move();
+            if(this.note_data.completedNum <= 50) localStorage.todo = JSON.stringify(this.notes);
+            else if(this.note_data.completedNum === 100) localStorage.todo3 = JSON.stringify(this.notes);
+            else localStorage.todo2 = JSON.stringify(this.notes);
+        }
     },
-    data(){
-        return{
-            
-        };
-    },
+    template: `
+    <div class="list">
+            <div class="create_task">
+                <h3 class="title_block">{{note_data.noteTitle}}</h3>
+                <button @click="delNote()">X</button>
+            </div>
+            <div class="task">
+                <div v-for="(element, elementId) in note_data.tasks" :key="elementId">
+                    <div class="set_task">
+                        <p class="title_task">{{element.taskTitle}}</p>
+                        <input @click="checkbox(elementId),column1Move() "  type="checkbox" v-model="element.completed" :class="{none: note_data.completedNum === 100}">
+                    </div>
+                </div>
+                <div class="add_task" :class="{none: note_data.tasks.length >= 5}">                  
+                    <div class="add_task_input">
+                        <input required type="text" @keyup.enter="addTask" v-model="taskTitle" placeholder="Задача">
+                    </div>
+                    <button @click="addTask">Добавить</button>
+            </div>
+        </div>
+    </div>
+
+    `,
 })
 
+Vue.component('center-list', {
+    props: {
+        note_data: {
+            type: Object,
+            default() {
+                return {}
+            }
+        },
+        notes: {
+            type: Array,
+            default() {
+                return {}
+            }
+        }
+    },
+    data() {
+        return {
+            taskTitle: null,
+            task: [],
+        }
 
+    },
+    methods: {
+        delNote() {
+            this.$emit('del_note')
+        },
+        addTask() {
+            if (this.taskTitle) {
+                this.note_data.tasks.push({
+                    taskTitle: this.taskTitle,
+                    completed: false,
+                });
+                this.taskTitle = null;
+                localStorage.todo = JSON.stringify(this.notes)
+            }
+        },
+        checkbox(id){
+            this.note_data.tasks[id].completed = !this.note_data.tasks[id].completed;
+            let counterCompleted = 0;
+            let counterNotCompleted = 0;
+            for (let el of this.note_data.tasks) {
+                if (el.completed) {
+                    counterCompleted++;
+                } else {
+                    counterNotCompleted++;
+                }
+            }
+            this.note_data.completedNum = (counterCompleted / (counterCompleted + counterNotCompleted)) * 100;
+            localStorage.todo = JSON.stringify(this.notes);
+        },
+    },
+    template: `
+    <div class="center-list">
+        <div class="column column2" v-if="note_data.completedNum > 50">
+            <div class="create_task">
+                <h3 class="title_block">{{note_data.noteTitle}}</h3>
+                <button @click="delNote()">X</button>
+            </div>
+            <div class="task">
+                <div v-for="(element, elementId) in note_data.tasks" :key="elementId">
+                    <div class="set_task">
+                        <p class="title_task">{{element.taskTitle}}</p>
+                        <input @click="checkbox(elementId)" type="checkbox" v-model="element.completed">
+                    </div>
+                </div>
+                <div class="add_task">
+                    <div class="add_task_input">
+                        <input type="text" @keyup.enter="addTask" v-model="taskTitle" placeholder="Задача">
+                    </div>
+                    <button @click="addTask">Добавить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    `,
+})
 
+Vue.component('right-list', {
+    template: `
+    <div class="right-list">
+        <div class="column column3">
+            <div class="create_task">
+                <h3 class="title_block">{{note_data.noteTitle}}</h3>
+                <button @click="delNote()">X</button>
+            </div>
+            <div class="task">
+                <div v-for="(element, elementId) in note_data.tasks" :key="elementId">
+                    <div class="set_task">
+                        <p class="title_task">{{element.taskTitle}}</p>
+                        <input @click="checkbox(elementId)" type="checkbox" v-model="element.completed">
+                    </div>
+                </div>
+                <div class="add_task">
+                    <div class="add_task_input">
+                        <input type="text" @keyup.enter="addTask" v-model="taskTitle" placeholder="Задача">
+                    </div>
+                    <button @click="addTask">Добавить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    `,
+    data() {
+        return {};
+    },
+    methods: {},
+    computed: {}
+})
 
 
 let app = new Vue({
     el: '#app',
     data: {
-        id: 0,
-        title: '',
-        content: '',
-        posts: [],
+        notes: [],
+        notes2: [],
+        notes3: [],
+        noteTitle: null,
+        todos: [],
     },
-    beforeMount() {
-        if(localStorage.data) {
-            this.posts = JSON.parse(localStorage.data)
+    computed: {},
+    mounted() {
+        if (localStorage.todo) {
+            this.notes = JSON.parse(localStorage.todo);
         }
-    }, 
+        if (localStorage.todo2) {
+            this.notes2 = JSON.parse(localStorage.todo2);
+        }
+        if (localStorage.todo3) {
+            this.notes3 = JSON.parse(localStorage.todo3);
+        }
+    },
     methods: {
-        addPost: function () {
-            if (this.title === '') {
-                alert('Введите название')
-            } else {
-                this.id++;
-                this.posts.push({ id: this.id, title: this.title, content: [], checkbox: [false] });
-                this.title = '';
+        addInTodos() {
+            this.todos.push({
+                notes: this.notes,
+                notes2: this.notes2,
+                notes3: this.notes3
+            })
+
+        },
+        createNote() {
+            if (this.noteTitle) {
+                this.notes.push({
+                    noteTitle: this.noteTitle,
+                    tasks: [],
+                    completedNum: 0,
+                });
+                this.noteTitle = null;
+                localStorage.todo = JSON.stringify(this.notes);
             }
         },
-        deletePost: function (index) {
-            this.posts.splice(index, 1);
-            localStorage.data = JSON.stringify(this.posts)
+        deleteNote(id) {
+            this.notes.splice(id, 1);
+            localStorage.todo = JSON.stringify(this.notes);
         },
-        addContent: function (index) {
-            if (this.content === '') {
-                alert('Заполните поле')
-            } else {
-                this.posts[index].content.push(this.content);
-                this.content = '';
+        moveColumn1(){
+            for (let i = 0; i < this.notes.length; i++){
+                if(this.notes[i].completedNum > 50){
+                    this.notes2.push(this.notes[i])
+                    this.notes.splice(this.notes[i], 1)
+                }
             }
+            localStorage.todo = JSON.stringify(this.notes);
+            localStorage.todo2 = JSON.stringify(this.notes2);
+
         },
-        deleteContent: function (index,indexContent) {
-            this.posts[index].content.splice(indexContent, 1);
-            this.posts[index].checkbox.splice(indexContent, 1);
-        },
-        addCheckbox: function() {
-            this.posts[index].checkbox[indexContent] = !this.posts[index].checkbox[indexContent]
+        moveColumn2(){
+            for (let i = 0; i < this.notes2.length; i++){
+                if(this.notes2[i].completedNum === 100){
+                    this.notes3.push(this.notes2[i])
+                    this.notes2.splice(this.notes2[i], 1)
+                }
+            }
+            localStorage.todo2 = JSON.stringify(this.notes2);
+            localStorage.todo3 = JSON.stringify(this.notes3);
         },
     },
-    updated() {
-        localStorage.data = JSON.stringify(this.posts)
-    }
 })
-
-
