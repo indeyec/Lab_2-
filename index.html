@@ -10,10 +10,14 @@
 </head>
 <body>
   <div id="app">
-      <div id="search">
+    <div id="created">
         <h1>Заметки</h1>
-        <input v-on:keyup.enter="addPost" v-model="title" placeholder="Название " maxlength="20">
-      </div><br>
+        <div>
+            <input @keyup.enter="createNote" v-model="noteTitle" placeholder="заметка">
+            <button @click="createNote">Добавить</button>
+        </div>
+    </div>
+          <br>
       <div class="header">
       <div id="post" v-for="post,index in posts">
         <img id="deletePost" v-on:click="deletePost(index)" src="static/delete.png">
