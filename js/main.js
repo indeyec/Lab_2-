@@ -20,6 +20,7 @@ Vue.component('container',{
 Vue.component('left-list',{
 template: `
 <div class:"left-list">
+
     <div class="column column1">
             <div class="todo-card">
                 <h3>Заголовок заметки</h3>
@@ -145,6 +146,8 @@ data(){
     };
 },   
 })
+
+
 
 let app = new Vue({
     el: '#app',
