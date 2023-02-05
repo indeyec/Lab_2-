@@ -13,24 +13,28 @@
     <div id="created">
         <h1>Заметки</h1>
         <div>
-            <input @keyup.enter="createNote" v-model="noteTitle" placeholder="заметка">
-            <button @click="createNote">Добавить</button>
+            <input class="cret" @keyup.enter="createNote" v-model="noteTitle" placeholder="заметка">
+            <button class="cret" @click="createNote">Добавить</button>
         </div>
     </div>
           <br>
-      <div class="header">
-      <div id="post" v-for="post,index in posts">
-        <img id="deletePost" v-on:click="deletePost(index)" src="static/delete.png">
-        <h2>{{post.title}}</h2>
-        <ol v-for="paragraph,indexContent in post.content">
-          <input type="checkbox" v-model="posts[index].checkbox[indexContent]">
-          <input type="text" v-model="posts[index].content[indexContent]">
-          <img id="deleteContent" v-on:click="deleteContent(index,indexContent)" src="static/remove.png">
-        </ol>
-        <input v-on:keyup.enter="addContent(index)" v-model="content" maxlength="20">
-      </div>
-  <container>
-  </container> 
-</div>
+          <div class="container">
+            <div class="column column1" >
+              <p>блок №1</p>
+                <list @del_note="deleteNote(index)" @column1_move="moveColumn1" :notes="notes" :note_data="note_data" v-for="(note_data, index) in notes" :key="index" ></list>
+        <!--        v-if="note_data.completedNum <= 50"-->
+            </div>
+            <div class="column column2">
+              <p>блок №2</p>
+                <list @del_note="deleteNote(index)" @column2_move="moveColumn2" :notes2="notes2" :note_data="note_data" v-for="(note_data, index) in notes2" :key="index" ></list>
+        <!--        v-if="note_data.completedNum > 50 && note_data.completedNum !== 100"-->
+            </div>
+            <div class="column column3">
+              <p>блок №3</p>
+                <list @del_note="deleteNote(index)" :notes3="notes3" :note_data="note_data" v-for="(note_data, index) in notes3" :key="index" ></list>
+        <!--        v-if="note_data.completedNum === 100"-->
+            </div>
+            </div>
+        </div>
 </body>
 </html>
