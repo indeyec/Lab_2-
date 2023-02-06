@@ -11,30 +11,39 @@
 <body>
   <div id="app">
     <div id="created">
-        <h1>Заметки</h1>
-        <div>
-            <input class="cret" @keyup.enter="createNote" v-model="noteTitle" placeholder="заметка">
-            <button class="cret" @click="createNote">Добавить</button>
-        </div>
-    </div>
-          <br>
-          <div class="container">
-            <div class="column column1" >
-              <p>блок №1</p>
-                <list @del_note="deleteNote(index)" @column1_move="moveColumn1" :notes="notes" :note_data="note_data" v-for="(note_data, index) in notes" :key="index" ></list>
-        <!--        v-if="note_data.completedNum <= 50"-->
-            </div>
-            <div class="column column2">
-              <p>блок №2</p>
-                <list @del_note="deleteNote(index)" @column2_move="moveColumn2" :notes2="notes2" :note_data="note_data" v-for="(note_data, index) in notes2" :key="index" ></list>
-        <!--        v-if="note_data.completedNum > 50 && note_data.completedNum !== 100"-->
-            </div>
-            <div class="column column3">
-              <p>блок №3</p>
-                <list @del_note="deleteNote(index)" :notes3="notes3" :note_data="note_data" v-for="(note_data, index) in notes3" :key="index" ></list>
-        <!--        v-if="note_data.completedNum === 100"-->
-            </div>
-            </div>
-        </div>
+      <h1>Todo-List</h1>
+      <form @submit.prevent="createNote">
+          <input class="listed" v-model="noteTitle" :disabled="column1.notes.length === 3" placeholder="Заявка">
+          <input class="listed" v-model="taskTitle1" :disabled="column1.notes.length === 3" placeholder="Первая заметка">
+          <input class="listed" v-model="taskTitle2" :disabled="column1.notes.length === 3" placeholder="Вторая заметка">
+          <input class="listed" v-model="taskTitle3" :disabled="column1.notes.length === 3" placeholder="Третья заметка">
+          <input class="listed" type="submit" value="Добавить" :class="{disabled: column1.notes.length === 3}">
+      </form>
+
+  </div>
+  <br>
+
+  <div class="container">
+      <div class="column column1" :class="{disabled: about.signal}">
+          {{column1.idColumn}}
+          <list @del_note="deleteNote1(index)" @column1_move="moveColumn1(index)" :notes="column1.notes" :id_column="column1.idColumn" :about="about"
+                :note_data="note_data" v-for="(note_data, index) in column1.notes" :key="index" class="list">
+          </list>
+      </div>
+      <div class="column column2">
+          {{column2.idColumn}}
+          <list @del_note="deleteNote2(index)" @column2_move="moveColumn2(index)" :id_column="column2.idColumn" :about="about"
+                @column2_move_left="moveColumn2Left(index)" :notes="column2.notes" :note_data="note_data"
+                v-for="(note_data, index) in column2.notes" :key="index" class="list">
+          </list>
+      </div>
+      <div class="column column3">
+          {{column3.idColumn}}
+          <list @del_note="deleteNote3(index)" :notes="column3.notes" :note_data="note_data" :id_column="column3.idColumn" :about="about"
+                v-for="(note_data, index) in column3.notes" :key="index" class="list">
+          </list>
+      </div>
+  </div>
+</div>
 </body>
 </html>
