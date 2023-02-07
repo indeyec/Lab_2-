@@ -291,8 +291,8 @@ let app = new Vue({
 
         timeAndData(id) {
             let Data = new Date();
-            this.column2.notes[id];
-            this.column2.notes[id];
+            this.column2.notes[id].time = Data.getHours() + ':' + Data.getMinutes();
+            this.column2.notes[id].date = Data.getDate() + ':' + Data.getMonth() + ':' + Data.getFullYear();
         },
 
 

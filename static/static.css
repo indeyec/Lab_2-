@@ -2,6 +2,8 @@
   margin: 0;
   padding: 0;
   font-family: cursive;
+  background-color: salmon;
+  
 }
 
 #created {
@@ -21,8 +23,8 @@
   display: flex;
   flex-direction: column;
   padding: 20px;
-  border: black 4px solid;
-  border-radius: 20px;
+  border: brown 5px solid;
+  border-radius: 70px;
   min-width: 100px;
 
 }
@@ -50,14 +52,10 @@ h1, h2{
   margin-right: 10px;
 }
 
-/* .tasks{
-  border: 2px solid grey;
-  border-radius: 20px;
-  padding: 3px;
-} */
+
 
 .task{
-  border: 2px solid coral;
+  border: 2px solid aqua;
   border-radius: 5px;
   padding: 3px;
   min-width: 100px;
@@ -67,9 +65,7 @@ h1, h2{
   text-align: center;
 }
 
-/* .date{
-  color: blueviolet;
-} */
+
 
 .add_task{
   padding: 3px;
@@ -88,17 +84,12 @@ li{
   pointer-events: none;
 }
 
-/* .list{
-  border: 3px solid blueviolet;
-  border-radius: 20px;
-  padding: 5px;
-  margin-bottom: 10px;
-} */
+
 
 
 .listed{
   height: 30px;
-  border: 2px solid grey;
+  border: 3px solid yellow;
   border-radius: 50px;
   padding-left: 5px;
 }
