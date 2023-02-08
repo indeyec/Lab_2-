@@ -2,11 +2,12 @@
   margin: 0;
   padding: 0;
   font-family: cursive;
-  background-color: salmon;
+  background-color:rgb(223, 181, 174);
+  
   
 }
 
-#created {
+.search{
   text-align: center;
 }
 
@@ -55,10 +56,11 @@ h1, h2{
 
 
 .task{
-  border: 2px solid aqua;
-  border-radius: 5px;
+  border: 5px solid rgb(0, 0, 0);
+  border-radius: 20px;
   padding: 3px;
   min-width: 100px;
+  margin: 10px;
 }
 
 .title_task{
@@ -87,9 +89,10 @@ li{
 
 
 
-.listed{
+input{
   height: 30px;
-  border: 3px solid yellow;
+  border: 3px solid rgb(221, 131, 184);
   border-radius: 50px;
   padding-left: 5px;
+  
 }
