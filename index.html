@@ -12,13 +12,13 @@
   <div id="app">
     <div class="search">
       <h1>Todo-List</h1>
-      <forms v-on:submit.prevent="forms">
+      <form v-on:submit.prevent="forms">
           <input v-model="request" :disabled="column1.arr.length === 3" placeholder="Заявка">
           <input v-model="Task1" :disabled="column1.arr.length === 3" placeholder="Первая заметка">
           <input v-model="Task2" :disabled="column1.arr.length === 3" placeholder="Вторая заметка">
           <input v-model="Task3" :disabled="column1.arr.length === 3" placeholder="Третья заметка">
           <input type="submit" value="Добавить" :class="{disabled: column1.arr.length === 3}">
-      </forms>
+      </form>
     </div>
   <br>
 
