@@ -27,6 +27,52 @@ Vue.component('task', {
             }
         }
     },
+    template: `
+    <div class="list">
+            <div class="note_title_block">
+                <h2 class="note_title">{{datas.request}}</h2>
+                <button 
+                v-on:click="delNote()">
+                Delete
+                </button>
+            </div>
+            <div class="tasks">
+                <div class="task" 
+                v-for="(element, elementId) in datas.tasks":key="elementId">
+                    <div class="set_task">
+                        <h3 class="title_task">
+                        {{element.taskTitle}}
+                        </h3>
+                        <input 
+                        v-on:click="checkbox(elementId),
+                        column1Move(),
+                        column2Move(),
+                        column2MoveLeft()" 
+                        type="checkbox" 
+                        v-model="element.completed"
+                        :class="{none: datas.completedNum === 100, disabled: datas.completedNum > 50 && element.completed && about.lengthColumn1 === 3}" >
+                    </div>
+                    <div class="date" v-if="datas.date">
+                        <p>{{datas.time}}</p>
+                        <p>{{datas.date}}</p>
+                    </div>
+                </div>
+                <div class="add_task":class="{none: datas.tasks.length >= 5 || datas.completedNum === 100}">                  
+                    <div class="add_task_input">
+                        <input required type="text" 
+                        v-on:keyup.enter="addTask(),
+                        column2MoveLeft()" 
+                        v-model="taskTitle" placeholder="Задача">
+                    </div>
+                    <button 
+                    v-on:click="addTask(),
+                    column2MoveLeft()">
+                    Input
+                    </button>
+            </div>
+        </div>
+    </div>
+    `,
     methods: {
         delNote() {
             this.$emit('del_note')
@@ -39,22 +85,6 @@ Vue.component('task', {
         },
         column2MoveLeft() {
             this.$emit('column2_move_left')
-        },
-        addTask() {
-            if (this.taskTitle) {
-                this.datas.tasks.push({
-                    taskTitle: this.taskTitle,
-                    completed: false,
-                });
-                this.taskTitle = null;
-                this.updateCompletedNum();
-                this.save_task();
-            }
-        },
-        checkbox(id) {
-            this.datas.tasks[id].completed = !this.datas.tasks[id].completed;
-            this.updateCompletedNum();
-            this.save_task();
         },
         updateCompletedNum() {
             let counterCompleted = 0;
@@ -73,6 +103,24 @@ Vue.component('task', {
             else if (this.task_id === 3 && this.datas.completedNum === 100) localStorage.todo3 = JSON.stringify(this.arr);
             else localStorage.todo2 = JSON.stringify(this.arr);
         },
+        addTask() {
+            if (this.taskTitle) {
+                this.datas.tasks.push({
+                    taskTitle: this.taskTitle,
+                    completed: false,
+                });
+                this.taskTitle = null;
+                this.updateCompletedNum();
+                this.save_task();
+            }
+        },
+        checkbox(id) {
+            this.datas.tasks[id].completed = !this.datas.tasks[id].completed;
+            this.updateCompletedNum();
+            this.save_task();
+        },
+        
+        
         data() {
             return {
                 taskTitle: null,
@@ -80,37 +128,10 @@ Vue.component('task', {
             }
         },
     },
-    template: `
-    <div class="list">
-            <div class="note_title_block">
-                <h2 class="note_title">{{datas.request}}</h2>
-                <button @click="delNote()">X</button>
-            </div>
-            <div class="tasks">
-                <div v-for="(element, elementId) in datas.tasks" :key="elementId" class="task">
-                    <div class="set_task">
-                        <h3 class="title_task">{{element.taskTitle}}</h3>
-                        <input @click="checkbox(elementId),column1Move(),column2Move(),column2MoveLeft()" 
-                               type="checkbox" 
-                               v-model="element.completed" 
-                               :class="{none: datas.completedNum === 100, disabled: datas.completedNum > 50 && element.completed && about.lengthColumn1 === 3}" >
-                    </div>
-                    
-                    <div class="date" v-if="datas.date">
-                        <p>{{datas.time}}</p>
-                        <p>{{datas.date}}</p>
-                    </div>
-                </div>
-                <div class="add_task" :class="{none: datas.tasks.length >= 5 || datas.completedNum === 100}">                  
-                    <div class="add_task_input">
-                        <input required type="text" @keyup.enter="addTask(),column2MoveLeft()" v-model="taskTitle" placeholder="Задача">
-                    </div>
-                    <button @click="addTask(),column2MoveLeft()">Добавить</button>
-            </div>
-        </div>
-    </div>
-    `,
+    
 })
+
+
 
 
 let app = new Vue({
@@ -156,7 +177,7 @@ let app = new Vue({
         }
     },
     methods: {
-        createNote() {
+        forms() {
             if (this.request && this.column1.arr.length < 3 && this.Task1 && this.Task2 && this.Task3) {
                 this.column1.arr.push({
                     request: this.request,
@@ -184,23 +205,8 @@ let app = new Vue({
             }
             this.length()
         },
-        deleteNote1(id) {
-            this.column1.arr.splice(id, 1);
-            this.length()
-            localStorage.todo = JSON.stringify(this.column1.arr);
-        },
-        deleteNote2(id) {
-            this.column2.arr.splice(id, 1);
-            this.about.signal = false
-            this.moveColumn1(this.about.id)
-            localStorage.about = JSON.stringify(this.about)
-            localStorage.todo2 = JSON.stringify(this.column2.arr);
-        },
-        deleteNote3(id) {
-            this.column3.arr.splice(id, 1);
-            localStorage.todo3 = JSON.stringify(this.column3.arr);
-        },
-        moveColumn1(id) {
+       
+        left_colm(id) {
             if (this.column1.arr[id].completedNum > 50 && this.column2.arr.length <= 5) {
                 if (this.column2.arr.length === 5) {
                     this.about.signal = true;
@@ -222,23 +228,23 @@ let app = new Vue({
             localStorage.todo2 = JSON.stringify(this.column2.arr);
             localStorage.about = JSON.stringify(this.about)
         },
-        moveColumn2(id) {
+        center_colm(id) {
             if (this.column2.arr[id].completedNum === 100) {
                 this.timeAndData(id);
                 this.column3.arr.push(this.column2.arr[id]);
                 this.column2.arr.splice(id, 1);
-                this.moveColumn1(this.about.id)
+                this.left_colm(this.about.id)
                 this.about.signal = false
             }
             localStorage.todo2 = JSON.stringify(this.column2.arr);
             localStorage.todo3 = JSON.stringify(this.column3.arr);
             localStorage.about = JSON.stringify(this.about)
         },
-        moveColumn2Left(id) {
+        right_colm(id) {
             if (this.column2.arr[id].completedNum <= 50) {
                 this.column1.arr.unshift(this.column2.arr[id]);
                 this.column2.arr.splice(id, 1);
-                this.moveColumn1(this.about.id)
+                this.left_colm(this.about.id)
             }
             this.length()
             localStorage.todo = JSON.stringify(this.column1.arr);
@@ -252,6 +258,26 @@ let app = new Vue({
         length(){
             this.about.lengthColumn1 = this.column1.arr.length;
             localStorage.about = JSON.stringify(this.about)
-        }
+        },
+        del_1(id) {
+            this.column1.arr.splice(id, 1);
+            this.length()
+            localStorage.todo = JSON.stringify(this.column1.arr);
+        },
+        del_2(id) {
+            this.column2.arr.splice(id, 1);
+            this.about.signal = false
+            this.left_colm(this.about.id)
+            localStorage.about = JSON.stringify(this.about)
+            localStorage.todo2 = JSON.stringify(this.column2.arr);
+        },
+        del_3(id) {
+            this.column3.arr.splice(id, 1);
+            localStorage.todo3 = JSON.stringify(this.column3.arr);
+        },
     },
 })
+
+
+
+
