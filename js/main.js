@@ -42,6 +42,7 @@ Vue.component('task', {
                     <div class="set_task">
                         <h3 class="title_task">
                         {{element.taskTitle}}
+                        <img id="deleteContent" v-on:click="deleteContent(index,indexContent)" src="static/remove.png">
                         </h3>
                         <input 
                         v-on:click="checkbox(elementId),
@@ -158,7 +159,8 @@ let app = new Vue({
             signal: false,
             bufColumn: [],
             id: null,
-            lengthColumn1: null
+            lengthColumn1: null,
+            arr: [],
         },
     },
     computed: {},
@@ -177,6 +179,10 @@ let app = new Vue({
         }
     },
     methods: {
+        deleteContent: function (index,indexContent) {
+            this.arr[index].column1.splice(indexContent, 1);
+            this.arr[index].checkbox.splice(indexContent, 1);
+        },
         forms() {
             if (this.request && this.column1.arr.length < 3 && this.Task1 && this.Task2 && this.Task3) {
                 this.column1.arr.push({
