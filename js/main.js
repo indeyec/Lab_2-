@@ -25,6 +25,9 @@ Vue.component('task', {
             default() {
                 return {}
             }
+        },
+        id_column:{
+            type: Number
         }
     },
     template: `
@@ -42,7 +45,8 @@ Vue.component('task', {
                     <div class="set_task">
                         <h3 class="title_task">
                         {{element.taskTitle}}
-                        <img id="deleteContent" v-on:click="deleteContent(index)" src="static/remove.png">
+                        <img id="deleteContent" v-if="id_column == 1 && datas.tasks.length > 3" 
+                        v-on:click="deleteContent(elementId)" src="static/remove.png">
                         </h3>
                         <input 
                         v-on:click="checkbox(elementId),
@@ -76,7 +80,9 @@ Vue.component('task', {
     `,
     methods: {
         deleteContent(id) {
-            this.tasks.task.splice(id,1)
+            if(this.datas.tasks.length > 3 && this.id_column == 1)
+            this.datas.tasks.splice(id,1)
+            this.save_task()
         },
         delNote() {
             this.$emit('del_note')
@@ -103,9 +109,12 @@ Vue.component('task', {
             this.datas.completedNum = (counterCompleted / (counterCompleted + counterNotCompleted)) * 100;
         },
         save_task() {
-            if (this.task_id === 1 && this.datas.completedNum <= 50) localStorage.todo = JSON.stringify(this.arr);
-            else if (this.task_id === 3 && this.datas.completedNum === 100) localStorage.todo3 = JSON.stringify(this.arr);
-            else localStorage.todo2 = JSON.stringify(this.arr);
+            // if (this.task_id === 1 && this.datas.completedNum <= 50) localStorage.todo = JSON.stringify(this.arr);
+            // else if (this.task_id === 3 && this.datas.completedNum === 100) localStorage.todo3 = JSON.stringify(this.arr);
+            // else localStorage.todo2 = JSON.stringify(this.arr);
+            if (this.id_column == 1)  localStorage.todo = JSON.stringify(this.arr);
+            if (this.id_column == 2)  localStorage.todo2 = JSON.stringify(this.arr);
+            if (this.id_column == 2)  localStorage.todo3 = JSON.stringify(this.arr);
         },
         addTask() {
             if (this.taskTitle) {
